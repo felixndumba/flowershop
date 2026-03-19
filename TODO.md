@@ -1,11 +1,8 @@
-# Florist Landing Page Implementation TODO
+# Fixing Runtime TypeError: Cannot read properties of null (reading 'useInsertionEffect')
 
-## Approved Plan Steps:
-
-- [x] 1. Create `components/Navbar.tsx` - Green navbar with logo, social icons, active menu, hamburger
-- [x] 2. Create `components/HeroSection.tsx` - Teal hero with text left, floral SVG right, slider indicator
-- [x] 3. Update `app/page.tsx` - Import and render Navbar + HeroSection
-- [ ] 4. Test responsive design
-- [x] 5. Complete task
-
-**Current Progress:** Components created, page updated. Run `npm run dev` to preview.
+## Plan Steps:
+1. ✅ Update package.json with compatible Next.js 15 + React 19 versions
+2. 🔄 Execute `npm install` to update dependencies  
+3. ✅ Remove duplicate Navbar from app/catalogue/page.tsx
+4. 🔄 Execute `npm run dev` to test fix
+5. ✅ Verify error is resolved
