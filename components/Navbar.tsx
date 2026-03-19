@@ -51,7 +51,7 @@ const Navbar = () => {
           {menuItems.map(({ name, path }) => (
             <Link key={name} href={path} className="w-max">
               <button
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2  rounded-lg font-medium transition-all ${
                   pathname === path
                     ? "bg-gray-900 text-white shadow-md"
                     : "text-white hover:bg-white/20"
@@ -66,7 +66,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-white p-2"
+        className="md:hidden bg-[#6BC29A]  text-white p-2"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         <svg
@@ -94,15 +94,20 @@ const Navbar = () => {
       </button>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-[80px] left-0 w-full bg-[#6BC29A] flex flex-col items-end px-8 py-6 space-y-4 md:hidden shadow-lg">
+{isMobileMenuOpen && (
+        <div className="absolute top-[80px] left-0 w-full bg-[#6BC29A]  flex flex-col px-8 py-6 space-y-4 md:hidden shadow-2xl z-50 border-t border-gray-200">
           {menuItems.map(({ name, path }) => (
-            <Link key={name} href={path} className="w-full">
+            <Link 
+              key={name} 
+              href={path} 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full"
+            >
               <button
-                className={`px-4 py-2 rounded-lg font-medium transition-all text-right w-full ${
+                className={`px-4 py-3 rounded-xl font-semibold text-left w-full transition-all ${
                   pathname === path
-                    ? "bg-gray-900 text-white"
-                    : "text-white hover:bg-white/20"
+                    ? "bg-[#6BC29A]/90 text-white shadow-md"
+                    : "text-gray-700 hover:bg-[#6BC29A]/10 hover:text-[#6BC29A]"
                 }`}
               >
                 {name}
@@ -111,11 +116,11 @@ const Navbar = () => {
           ))}
 
           {/* Mobile Social Icons */}
-          <div className="flex space-x-4 pt-4">
+          <div className="flex space-x-4 pt-6 pb-4">
             {socialIcons.map(({ name, icon }) => (
               <div
                 key={name}
-                className="w-10 h-10 text-white bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#6BC29A] transition-all"
+                className="w-12 h-12 text-[#6BC29A] bg-[#6BC29A]/5 rounded-2xl flex items-center justify-center hover:bg-[#6BC29A]/20 transition-all hover:scale-110 cursor-pointer"
               >
                 {icon}
               </div>
