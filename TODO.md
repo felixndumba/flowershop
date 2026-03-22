@@ -1,15 +1,12 @@
-# Florist Shop TODO - Category Dropdowns Plan
+# Product Description Modal Implementation
 
-## Plan Breakdown (Approved)
-1. [x] Check if lucide-react installed ✓
-2. [x] Edit components/productlist.tsx top bar:
-   - Added ChevronDown import.
-   - Added openDropdowns state.
-   - Replaced buttons with no-bg dropdown toggles (text + icon, skip All).
-   - Icon rotates, simple menu shows.
-3. [ ] Test dropdown functionality on /catalogue (visit http://localhost:3000/catalogue).
-4. [ ] Optionally clean filter panel chips (remove bgs).
-5. [x] Complete task.
+## Steps to complete:
 
-Progress: 5/5 - Complete
+### 1. ✅ Create TODO.md with plan (current)
+### 2. ✅ Update types and add description modal to components/productlist.tsx
+### 3. ✅ Update Product type in app/catalogue/page.tsx
+### 4. ✅ Test functionality on catalogue page - View http://localhost:3000/catalogue, click "View Description" on products with descriptions
+### 5. ✅ No other pages use ProductList component
+### 6. ✅ Task completed
 
+**Status: Complete**

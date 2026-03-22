@@ -1,14 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaShoppingCart,
+} from "react-icons/fa";
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
+  const { totalItems } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const pathname = usePathname(); // get current path for active link
+  const pathname = usePathname();
 
   const socialIcons = [
     { name: "Facebook", icon: <FaFacebookF /> },
@@ -16,44 +23,134 @@ const Navbar = () => {
     { name: "Instagram", icon: <FaInstagram /> },
   ];
 
-  // Map menu items to paths
   const menuItems = [
     { name: "HOME", path: "/" },
     { name: "ABOUT US", path: "/about-us" },
     { name: "CATALOGUE", path: "/catalogue" },
-    { name: "SOURCE FLOWERS", path: "/source-flowers" },
+    { name: "SOURCE FLOWERS", path: "/source" },
     { name: "CONTACT US", path: "/contact-us" },
   ];
 
   return (
-    <nav className="bg-[#6BC29A] h-[80px] px-8 flex items-center justify-between shadow-lg relative">
-      {/* Logo */}
-      <div className="text-white text-xl font-light tracking-widest">
-        YOURLOGO
-      </div>
+    <nav className="bg-[#6BC29A] h-[80px] px-6 md:px-8 flex items-center justify-between shadow-lg relative">
 
-      {/* Desktop Menu */}
+      {/* LOGO */}
+      <Link href="/">
+        <Image
+          src="/flowers/logo.png"
+          alt="Logo"
+          width={120}
+          height={60}
+          className="h-12 w-auto object-contain cursor-pointer"
+        />
+      </Link>
+
+      {/* DESKTOP MENU */}
       <div className="hidden md:flex items-center space-x-10">
-        {/* Social Icons */}
+
+        {/* SOCIAL ICONS */}
         <div className="flex space-x-4">
           {socialIcons.map(({ name, icon }) => (
             <div
               key={name}
-              className="w-10 h-10 text-white bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white hover:text-[#6BC29A] transition-all duration-300 hover:scale-110"
+              className="w-10 h-10 text-white bg-white/10 rounded-full flex items-center justify-center cursor-pointer hover:bg-white hover:text-[#6BC29A] transition-all duration-300 hover:scale-110"
             >
               {icon}
             </div>
           ))}
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex space-x-4">
+        {/* NAV LINKS */}
+        <div className="flex items-center space-x-4">
           {menuItems.map(({ name, path }) => (
-            <Link key={name} href={path} className="w-max">
+            <Link key={name} href={path}>
               <button
-                className={`px-4 py-2  rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all text-white hover:bg-white/20 ${
                   pathname === path
-                    ? "bg-gray-900 text-white shadow-md"
+                    ? "relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-white after:rounded-full"
+                    : ""
+                }`}
+              >
+                {name}
+              </button>
+            </Link>
+          ))}
+        </div>
+
+        {/* CART ICON */}
+        <Link href="/cart" className="relative"> 
+          <div className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10  hover:text-[#6BC29A] transition-all duration-300 cursor-pointer hover:scale-110 active:scale-95">
+            <FaShoppingCart className="text-white text-lg" />
+          </div>
+
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center text-[10px] shadow">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+      </div>
+
+      {/* MOBILE BUTTONS - Hamburger + Cart */}
+      <div className="md:hidden flex items-center space-x-3">
+        {/* Hamburger */}
+        <button
+          className="text-white p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg
+            className="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {isMobileMenuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
+
+        {/* Cart Icon */}
+        <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="relative">
+          <div className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white hover:text-[#6BC29A] transition-all duration-300 cursor-pointer hover:scale-110 active:scale-95">
+            <FaShoppingCart className="text-white text-lg" />
+          </div>
+
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center text-[10px] shadow">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+      </div>
+
+      {/* MOBILE MENU */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-[80px] left-0 w-full bg-[#6BC29A] flex flex-col px-6 py-6 space-y-4 md:hidden shadow-2xl z-50">
+
+          {/* LINKS */}
+          {menuItems.map(({ name, path }) => (
+            <Link
+              key={name}
+              href={path}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <button
+                className={`px-4 py-3 rounded-xl font-semibold text-left w-full ${
+                  pathname === path
+                    ? "bg-white text-[#6BC29A]"
                     : "text-white hover:bg-white/20"
                 }`}
               >
@@ -61,66 +158,33 @@ const Navbar = () => {
               </button>
             </Link>
           ))}
-        </div>
-      </div>
 
-      {/* Mobile Menu Button */}
-      <button
-        className="md:hidden bg-[#6BC29A]  text-white p-2"
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      >
-        <svg
-          className="w-7 h-7"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          {isMobileMenuOpen ? (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          ) : (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          )}
-        </svg>
-      </button>
+          {/* CART (MOBILE) */}
+          <Link
+            href="/cart"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/10 text-white">
+              <span className="font-semibold">Cart</span>
 
-      {/* Mobile Menu */}
-{isMobileMenuOpen && (
-        <div className="absolute top-[80px] left-0 w-full bg-[#6BC29A]  flex flex-col px-8 py-6 space-y-4 md:hidden shadow-2xl z-50 border-t border-gray-200">
-          {menuItems.map(({ name, path }) => (
-            <Link 
-              key={name} 
-              href={path} 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full"
-            >
-              <button
-                className={`px-4 py-3 rounded-xl font-semibold text-left w-full transition-all ${
-                  pathname === path
-                    ? "bg-[#6BC29A]/90 text-white shadow-md"
-                    : "text-gray-700 hover:bg-[#6BC29A]/10 hover:text-[#6BC29A]"
-                }`}
-              >
-                {name}
-              </button>
-            </Link>
-          ))}
+              <div className="relative">
+                <FaShoppingCart />
 
-          {/* Mobile Social Icons */}
-          <div className="flex space-x-4 pt-6 pb-4">
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-1.5">
+                    {totalItems}
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+
+          {/* SOCIAL ICONS */}
+          <div className="flex space-x-4 pt-4">
             {socialIcons.map(({ name, icon }) => (
               <div
                 key={name}
-                className="w-12 h-12 text-[#6BC29A] bg-[#6BC29A]/5 rounded-2xl flex items-center justify-center hover:bg-[#6BC29A]/20 transition-all hover:scale-110 cursor-pointer"
+                className="w-10 h-10 text-white bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#6BC29A] transition-all"
               >
                 {icon}
               </div>

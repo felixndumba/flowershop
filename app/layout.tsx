@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/footer";
 import WhatsAppButton from "@/components/wbtn";
+import { Toaster } from "react-hot-toast";
+import { CartProvider } from "@/contexts/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +32,30 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-         <WhatsAppButton />
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          {children}
+          <WhatsAppButton />
+          <Footer />
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: '#0F2E35',
+                color: '#fff',
+                border: '1px solid #6BC29A',
+              },
+              success: {
+                style: {
+                  borderColor: '#6BC29A',
+                  background: 'rgba(107, 194, 154, 0.95)',
+                },
+              },
+            }}
+          />
+        </CartProvider>
       </body>
-    
     </html>
   );
 }
